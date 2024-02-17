@@ -2,14 +2,21 @@
 
 const gameBoard = document.querySelector("#game");
 const gridButton = document.querySelector("#container button");
+const RGB_VALUES = 255;
 
 
 let createColumn = function(){
     let gridColumn = document.createElement("div");
+    let brightness = 100;
     gridColumn.classList.toggle("gridColumn");
 
     gridColumn.addEventListener("mouseenter", (e) => {
-        e.target.classList.toggle("squareColor");
+        if(e.target.style.backgroundColor === ""){
+            e.target.style.backgroundColor = `rgb(${randomColor()}, ${randomColor()}, ${randomColor()})`;
+        } else {
+            brightness -= 10;
+            e.target.style.filter = `brightness(${brightness}%)`;
+        }
     });
 
     return gridColumn;
@@ -43,7 +50,6 @@ let removeGrid = function(){
 
 window.addEventListener("load", createGrid());
 gridButton.addEventListener("click", () => {
-    let gridDimension = 16;
     gridDimension = +prompt("Enter number of Columns and Rows: ");
     
     while(gridDimension < 1 || gridDimension > 100){
@@ -54,6 +60,9 @@ gridButton.addEventListener("click", () => {
     createGrid(gridDimension);
 });
 
+function randomColor() {
+    return Math.floor(Math.random() * RGB_VALUES);
+}
 
 
 
